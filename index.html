@@ -220,36 +220,42 @@
     </div>
   </div>
 
-  <script>
+   <script>
     const form = document.getElementById('panaderia-form');
-    const successMsg = document.getElementById('success');
-    const successName = document.getElementById('success-name');
-
+    
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nombre = document.getElementById('nombre').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
       
-      if (!nombre || !telefono) return;
+      const nombre = document.getElementById('nombre').value.trim();
+      const prefijo = document.getElementById('prefijo').value;
+      const numero = document.getElementById('telefono').value.trim();
+      
+      // Concatenamos para enviar un solo string a n8n
+      const telefono_completo = prefijo + numero;
 
       const btn = form.querySelector('.btn-submit');
-      btn.textContent = 'Registrando...';
+      btn.textContent = 'Procesando...';
       btn.disabled = true;
 
       try {
         await fetch('https://wayneindustries.org/webhook/panaderia-registro', {
           method: 'POST',
-          //mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, telefono })
+          body: JSON.stringify({ 
+            nombre: nombre, 
+            telefono: telefono_completo 
+          })
         });
-      } catch (err) {
-        console.warn('Error en el registro:', err);
-      }
 
-      form.style.display = 'none';
-      successName.textContent = '¡Gracias, ' + nombre + '!';
-      successMsg.style.display = 'block';
+        form.style.display = 'none';
+        document.getElementById('success-name').textContent = '¡Gracias, ' + nombre + '!';
+        document.getElementById('success').style.display = 'block';
+
+      } catch (err) {
+        console.error('Error:', err);
+        btn.textContent = 'Error - Reintentar';
+        btn.disabled = false;
+      }
     });
   </script>
 </body>
