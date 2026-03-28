@@ -199,6 +199,7 @@
       try {
         await fetch('https://wayneindustries.org/webhook-test/panaderia-registro', {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, telefono })
         });
