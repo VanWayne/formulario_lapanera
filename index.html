@@ -197,9 +197,9 @@
       btn.disabled = true;
 
       try {
-        await fetch('https://wayneindustries.org/webhook-test/panaderia-registro', {
+        await fetch('https://wayneindustries.org/webhook/panaderia-registro', {
           method: 'POST',
-          mode: 'no-cors',
+          //mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, telefono })
         });
